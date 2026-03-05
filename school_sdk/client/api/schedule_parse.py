@@ -10,16 +10,19 @@ import typing as t
 
 class ScheduleParse():
     __SCHEDULE_TIME = {
-        "1": [8, 30],
-        "2": [9, 20],
-        "3": [10, 25],
-        "4": [11, 15],
-        "5": [14, 40],
-        "6": [15, 30],
-        "7": [16, 30],
-        "8": [17, 20],
-        "9": [19, 30],
-        "10": [20, 20]
+        "1":  [8,  0],
+        "2":  [8,  55],
+        "3":  [10, 0],
+        "4":  [10, 55],
+        "5":  [12, 0],
+        "6":  [12, 55],
+        "7":  [14, 0],
+        "8":  [14, 55],
+        "9":  [16, 0],
+        "10": [16, 55],
+        "11": [18, 0],
+        "12": [18, 55],
+        "13": [19, 45],
     }
 
     def __init__(self, content=None, schedule_time:t.Union[dict, None]=None) -> None:
@@ -115,8 +118,8 @@ class ScheduleParse():
             [type]: 课程开始和课程结束的时间
         """
         start, end = b2e.split('-')
-        start_time = self.SCHEDULE_TIME[start]
-        end_time = self.SCHEDULE_TIME[end]
+        start_time = self.SCHEDULE_TIME.get(start, [0, 0])
+        end_time = self.SCHEDULE_TIME.get(end, [0, 0])
         return {"start": start_time, "last": end_time}
 
     def get_course_week(self, week_text: str) -> list:
