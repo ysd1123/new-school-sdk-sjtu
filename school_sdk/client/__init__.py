@@ -91,10 +91,10 @@ class SchoolClient():
 
 
 class UserClient(BaseUserClient):
-    schedule: Schedule
-    score: Score
+    schedule: t.Optional[Schedule] = None
+    score: t.Optional[Score] = None
     info = None
-    schedule_class: ScheduleClass
+    schedule_class: t.Optional[ScheduleClass] = None
 
     def __init__(self, school: SchoolClient, account, password) -> None:
         """初始化用户类

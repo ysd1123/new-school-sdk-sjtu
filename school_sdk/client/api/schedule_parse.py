@@ -30,8 +30,7 @@ class ScheduleParse():
         self.parse_list:list = []
         self.parse_dict:dict = {}
         self.parse_ics = None
-        if schedule_time != None:
-            self.SCHEDULE_TIME = schedule_time or self.__SCHEDULE_TIME
+        self.SCHEDULE_TIME = schedule_time if schedule_time is not None else self.__SCHEDULE_TIME
 
     def set_schedule_time(self, schedule_time:dict):
         self.SCHEDULE_TIME = schedule_time or self.__SCHEDULE_TIME
@@ -140,7 +139,7 @@ class ScheduleParse():
                 week = week.replace("(双)", "")
                 week = week.replace("(单)", "")
                 leap = 2
-            re_result = re.search("(\d+).?(\d*).*", week)
+            re_result = re.search(r"(\d+).?(\d*).*", week)
             real = re_result.groups()
             if real[-1] == '':
                 weeks += [int(real[0])]
