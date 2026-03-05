@@ -184,11 +184,14 @@ class UserClient(BaseUserClient):
         """设置user cookies
 
         Args:
-            cookies (str): Cookies 字符串
+            cookies (str): Cookies 字符串，支持单个或多个 cookie（以 `;` 分隔）
         """
-        cookies = cookies.strip()
-        key, value = cookies.split('=')
-        self._http.cookies.set(key, value)
+        for cookie in cookies.split(';'):
+            cookie = cookie.strip()
+            if not cookie:
+                continue
+            key, value = cookie.split('=', 1)
+            self._http.cookies.set(key.strip(), value.strip())
 
     def get_dev_user(self, cookies: str, **kwargs):
         self._http = requests.Session()
