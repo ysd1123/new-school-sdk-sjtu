@@ -31,5 +31,11 @@ URL_ENDPOINT = {
     },
     'INFO': {
         'API': '/xsxxxggl/xsgrxxwh_cxXsgrxx.html'
+    },
+    'COURSE_SELECTION': {
+        'INDEX': '/xsxk/zzxkyzb_cxZzxkYzbIndex.html',
+        'DISPLAY': '/xsxk/zzxkyzb_cxZzxkYzbDisplay.html',
+        'COURSE_LIST': '/xsxk/zzxkyzb_cxZzxkYzbPartDisplay.html',
+        'CLASS_DETAIL': '/xsxk/zzxkyzbjk_cxJxbWithKchZzxkYzb.html',
     }
 }

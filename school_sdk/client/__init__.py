@@ -8,6 +8,7 @@
 import typing as t
 import requests
 from school_sdk.client.api.class_schedule import ScheduleClass
+from school_sdk.client.api.course_selection import CourseSelection
 from school_sdk.client.api.score import Score
 from school_sdk.client.api.user_info import Info
 from school_sdk.client.utils import user_is_login
@@ -95,6 +96,7 @@ class UserClient(BaseUserClient):
     score: t.Optional[Score] = None
     info = None
     schedule_class: t.Optional[ScheduleClass] = None
+    course_selection: t.Optional[CourseSelection] = None
 
     def __init__(self, school: SchoolClient, account, password) -> None:
         """初始化用户类
@@ -155,6 +157,46 @@ class UserClient(BaseUserClient):
         if self.info is None:
             self.info = Info(self)
         return self.info.get_info(**kwargs)
+
+    def get_course_selection_tabs(self, **kwargs):
+        """获取自主选课页签列表
+
+        返回当前登录用户在自主选课界面可选择的所有页签信息。
+        无需参数，模拟用户打开自主选课页面后自动呈现的页签列表。
+
+        Returns:
+            list[dict]: 页签列表，每项含 name, kklxdm, xkkz_id,
+                njdm_id, zyh_id, is_default 字段。
+        """
+        if self.course_selection is None:
+            self.course_selection = CourseSelection(self)
+        return self.course_selection.get_tabs(**kwargs)
+
+    def search_elective_courses(self, tab: dict, keyword: str = '',
+                                filters: t.Optional[dict] = None,
+                                fetch_details: bool = True, **kwargs):
+        """自主选课可选课程信息查询
+
+        在指定页签下搜索可选课程，返回课程及教学班详情。
+
+        Args:
+            tab (dict): 页签信息，来自 get_course_selection_tabs() 的某个元素。
+            keyword (str, optional): 搜索关键词（课程号/课程名称/教学班名称/
+                教师姓名/教师工号）。
+            filters (dict, optional): 筛选条件，可选键：
+                college, campus, course_nature, course_category,
+                teaching_mode, weekday, period, class_name,
+                retake (bool), has_capacity (bool)。
+            fetch_details (bool, optional): 是否获取教学班详情，默认 True。
+
+        Returns:
+            list[dict]: 课程列表，含教学班详情。
+        """
+        if self.course_selection is None:
+            self.course_selection = CourseSelection(self)
+        return self.course_selection.search_courses(
+            tab, keyword, filters, fetch_details, **kwargs
+        )
 
     def refresh_info(self, **kwargs):
         self.info = None
